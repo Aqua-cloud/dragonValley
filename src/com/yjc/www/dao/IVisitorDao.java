@@ -20,4 +20,5 @@ public interface IVisitorDao {
     //List
     List<Visitor> getAll();
 
+    Visitor login(String username, String password);
 }

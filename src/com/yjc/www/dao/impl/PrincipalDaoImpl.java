@@ -2,6 +2,7 @@ package com.yjc.www.dao.impl;
 
 import com.yjc.www.dao.IPrincipalDao;
 import com.yjc.www.po.Principal;
+import com.yjc.www.po.Visitor;
 import com.yjc.www.util.DbUtil;
 
 import java.sql.Connection;
@@ -145,6 +146,36 @@ public class PrincipalDaoImpl implements IPrincipalDao {
             DbUtil.close(conn, ps, rs);
         }
         return principals;
+    }
+
+    @Override
+    public Principal login(String username, String password) {
+        String sql = "SELECT*FROM principal WHERE password =? and username =? ";
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            conn = DbUtil.getConn();
+            // 创建语句对象
+            ps = conn.prepareStatement(sql);
+            //设置占位符参数
+            ps.setString(1, password);
+            ps.setString(2, username);
+            //执行sql语句
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                Integer principalId = rs.getInt("id");
+                String phone = rs.getString("phone");
+                String account = rs.getString("account");
+                Principal principal = new Principal(principalId, username, account, phone, password);
+                return principal;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DbUtil.close(conn, ps, rs);
+        }
+        return null;
     }
 }
 

@@ -2,6 +2,7 @@ package com.yjc.www.dao.impl;
 
 import com.yjc.www.dao.IMasterDao;
 import com.yjc.www.po.Master;
+import com.yjc.www.po.Principal;
 import com.yjc.www.util.DbUtil;
 
 import java.sql.Connection;
@@ -145,6 +146,36 @@ public class MasterDaoImpl implements IMasterDao {
             DbUtil.close(conn, ps, rs);
         }
         return masters;
+    }
+
+    @Override
+    public Master login(String username, String password) {
+        String sql = "SELECT*FROM principal WHERE password =? and username =? ";
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            conn = DbUtil.getConn();
+            // 创建语句对象
+            ps = conn.prepareStatement(sql);
+            //设置占位符参数
+            ps.setString(1, password);
+            ps.setString(2, username);
+            //执行sql语句
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                Integer masterId = rs.getInt("id");
+                String phone = rs.getString("phone");
+                String account = rs.getString("account");
+                Master master = new Master(masterId, username, account, phone, password);
+                return master;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DbUtil.close(conn, ps, rs);
+        }
+        return null;
     }
 }
 

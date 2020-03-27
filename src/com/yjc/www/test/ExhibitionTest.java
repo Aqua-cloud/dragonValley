@@ -14,7 +14,7 @@ public class ExhibitionTest {
     public ExhibitionHall exhibitionHall = new ExhibitionHall();
     private IExhibitionHallDao dao = new ExhibitionHallDaoImpl();
 
-    @Test
+    /*@Test
     public void testSave(){
         exhibitionHall.setAddress("广州");
         exhibitionHall.setArea(100);
@@ -24,6 +24,8 @@ public class ExhibitionTest {
         exhibitionHall.setType("火龙馆");
         dao.save(exhibitionHall);
     }
+
+     */
 
     @Test
     public void testGet(){

@@ -18,4 +18,6 @@ public interface IPrincipalDao {
     Principal getById(Integer principalId);
 
     List<Principal> getAll();
+
+    Principal login(String username, String password);
 }

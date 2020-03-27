@@ -146,5 +146,35 @@ public class VisitorDaoImpl implements IVisitorDao {
         }
         return visitors;
     }
+
+    @Override
+    public Visitor login(String username, String password) {
+        String sql = "SELECT*FROM visitor WHERE password =? and username =? ";
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            conn = DbUtil.getConn();
+            // 创建语句对象
+            ps = conn.prepareStatement(sql);
+            //设置占位符参数
+            ps.setString(1, password);
+            ps.setString(2, username);
+            //执行sql语句
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                Integer visitorId = rs.getInt("id");
+                String phone = rs.getString("phone");
+                String account = rs.getString("account");
+                Visitor visitor = new Visitor(visitorId, username,account,phone,password);
+                return visitor;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DbUtil.close(conn, ps, rs);
+        }
+        return null;
+    }
 }
 

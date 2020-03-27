@@ -18,4 +18,6 @@ public interface IMasterDao {
     Master getById(Integer masterId);
 
     List<Master> getAll();
+
+    Master login(String username, String password);
 }
