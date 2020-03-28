@@ -19,5 +19,5 @@ public interface IPrincipalDao {
 
     List<Principal> getAll();
 
-    Principal login(String username, String password);
+    Principal login(String password, String account);
 }

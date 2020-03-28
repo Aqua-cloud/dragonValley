@@ -25,8 +25,8 @@ public class VisitorDaoImpl implements IVisitorDao {
             //设置占位符参数
             ps.setString(1, visitor.getUsername());
             ps.setString(2, visitor.getPhone());
-            ps.setString(3, visitor.getAccount());
-            ps.setString(4, visitor.getPassword());
+            ps.setString(3, visitor.getPassword());
+            ps.setString(4,"10000");
             // 执行SQL语句
             ps.executeUpdate();
         } catch (Exception e) {
@@ -115,6 +115,33 @@ public class VisitorDaoImpl implements IVisitorDao {
     }
 
     @Override
+    public Integer getId(String userName) {
+        String sql = "SELECT*FROM visitor WHERE username =?";
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            conn = DbUtil.getConn();
+            // 创建语句对象
+            ps = conn.prepareStatement(sql);
+            //设置占位符参数
+            ps.setString(1, userName);
+            //执行sql语句
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                Integer id = rs.getInt("id");
+                return id;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DbUtil.close(conn, ps, rs);
+        }
+        return null;
+
+    }
+
+    @Override
     public List<Visitor> getAll() {
         //创建list集合封装Visitor对象
         List<Visitor> visitors = new ArrayList<>();
@@ -148,8 +175,8 @@ public class VisitorDaoImpl implements IVisitorDao {
     }
 
     @Override
-    public Visitor login(String username, String password) {
-        String sql = "SELECT*FROM visitor WHERE password =? and username =? ";
+    public Visitor login(String password, String account) {
+        String sql = "SELECT*FROM visitor WHERE password =? and account =? ";
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -159,14 +186,14 @@ public class VisitorDaoImpl implements IVisitorDao {
             ps = conn.prepareStatement(sql);
             //设置占位符参数
             ps.setString(1, password);
-            ps.setString(2, username);
+            ps.setString(2, account);
             //执行sql语句
             rs = ps.executeQuery();
             if (rs.next()) {
                 Integer visitorId = rs.getInt("id");
                 String phone = rs.getString("phone");
-                String account = rs.getString("account");
-                Visitor visitor = new Visitor(visitorId, username,account,phone,password);
+                String username = rs.getString("username");
+                Visitor visitor = new Visitor(visitorId, account,username,phone,password);
                 return visitor;
             }
         } catch (SQLException e) {
@@ -175,6 +202,31 @@ public class VisitorDaoImpl implements IVisitorDao {
             DbUtil.close(conn, ps, rs);
         }
         return null;
+    }
+
+    @Override
+    public Boolean checkUserName(String userName) {
+        String sql = "SELECT*FROM visitor WHERE username=? ";
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            conn = DbUtil.getConn();
+            // 创建语句对象
+            ps = conn.prepareStatement(sql);
+            //设置占位符参数
+            ps.setString(1, userName);
+            //执行sql语句
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DbUtil.close(conn, ps, rs);
+        }
+        return true;
     }
 }
 

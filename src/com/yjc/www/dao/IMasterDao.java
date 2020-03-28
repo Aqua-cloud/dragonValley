@@ -19,5 +19,5 @@ public interface IMasterDao {
 
     List<Master> getAll();
 
-    Master login(String username, String password);
+    Master login(String password, String account);
 }

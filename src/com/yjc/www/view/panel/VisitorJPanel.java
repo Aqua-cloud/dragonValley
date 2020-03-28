@@ -1,8 +1,10 @@
 package com.yjc.www.view.panel;
 
+import com.yjc.www.dto.Msg;
+
 import javax.swing.*;
 
-public class IndexJPanel extends JPanel{
+public class VisitorJPanel extends JPanel{
 
 	private JLabel lab_account = new JLabel();
 
@@ -15,11 +17,11 @@ public class IndexJPanel extends JPanel{
 	}
 	
 	
-	public IndexJPanel(String text) {
+	public VisitorJPanel(Msg msg) {
 			
 			super();
 			// TODO Auto-generated constructor stub
-			init(text);
+			init(msg.getResult());
 			add(lab_account);
 			setLayout(null);
 		}

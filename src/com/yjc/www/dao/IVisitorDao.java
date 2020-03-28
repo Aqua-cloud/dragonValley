@@ -15,10 +15,14 @@ public interface IVisitorDao {
     void update(Visitor visitor);
 
     //id查询
-    Visitor  getById(Integer visitorId);
+    Visitor getById(Integer visitorId);
+
+    Integer getId(String userName);
 
     //List
     List<Visitor> getAll();
 
-    Visitor login(String username, String password);
+    Visitor login(String password, String account);
+
+    Boolean checkUserName(String userName);
 }

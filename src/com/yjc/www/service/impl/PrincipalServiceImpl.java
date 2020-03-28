@@ -16,14 +16,14 @@ public class PrincipalServiceImpl implements IPrincipalService {
     IPrincipalDao dao = new PrincipalDaoImpl();
     //用户登录
     @Override
-    public Msg login(String password, String userName) {
+    public Msg login(String password, String account) {
 
-        if (ValidateUtil.isInvalidUserName(userName)) {
-            return new Msg("用户名为空", null);
+        if (ValidateUtil.isInvalid(password,account)) {
+            return new Msg("账号或密码为空", null);
         }
-        Principal principal = dao.login(password, userName);
+        Principal principal = dao.login(password, account);
         if (principal == null) {
-            return new Msg("用户名或密码错误", null);
+            return new Msg("账号或密码错误", null);
         } else {
             return new Msg("登录成功", principal);
         }

@@ -2,7 +2,10 @@ package com.yjc.www.test;
 
 import com.yjc.www.dao.IVisitorDao;
 import com.yjc.www.dao.impl.VisitorDaoImpl;
+import com.yjc.www.dto.Msg;
 import com.yjc.www.po.Visitor;
+import com.yjc.www.service.IVisitorService;
+import com.yjc.www.service.impl.VisitorServiceImpl;
 import org.junit.Test;
 
 import java.util.List;
@@ -12,6 +15,14 @@ public class VisitorTest {
     public Visitor visitor = new Visitor();
 
     private IVisitorDao dao = new VisitorDaoImpl();
+
+    private IVisitorService service = new VisitorServiceImpl();
+
+    @Test
+    public void testLogin(){
+        Msg msg = service.login("123456", "13452345");
+        System.out.println(msg);
+    }
 
 
     @Test

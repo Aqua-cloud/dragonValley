@@ -149,8 +149,8 @@ public class MasterDaoImpl implements IMasterDao {
     }
 
     @Override
-    public Master login(String username, String password) {
-        String sql = "SELECT*FROM principal WHERE password =? and username =? ";
+    public Master login(String password, String account) {
+        String sql = "SELECT*FROM principal WHERE password =? and account =? ";
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -160,13 +160,13 @@ public class MasterDaoImpl implements IMasterDao {
             ps = conn.prepareStatement(sql);
             //设置占位符参数
             ps.setString(1, password);
-            ps.setString(2, username);
+            ps.setString(2, account);
             //执行sql语句
             rs = ps.executeQuery();
             if (rs.next()) {
                 Integer masterId = rs.getInt("id");
                 String phone = rs.getString("phone");
-                String account = rs.getString("account");
+                String username = rs.getString("username");
                 Master master = new Master(masterId, username, account, phone, password);
                 return master;
             }
